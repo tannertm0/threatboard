@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { useState, useEffect } from "react";
-import { Copy } from "lucide-react";
+import { CopyButton } from "@/components/ui/copy-button";
 
 export function PasswordGenerator() {
   const [length, setLength] = useState(12);
@@ -76,23 +76,12 @@ export function PasswordGenerator() {
     generatePassword();
   }, [length, includeUppercase, includeLowercase, includeNumbers, includeSpecial]);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(password);
-  };
-
   return (
     <div className="w-full max-w-md space-y-4 p-6">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">Password Length: {length}</label>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={copyToClipboard}
-            className="h-8 w-8"
-          >
-            <Copy className="h-4 w-4" />
-          </Button>
+          <CopyButton value={password} size="icon" className="h-8 w-8" />
         </div>
         <Slider
           value={[length]}

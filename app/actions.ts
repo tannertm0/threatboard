@@ -4,6 +4,8 @@ import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from 'next/cache';
+import { slugify } from '@/lib/utils';
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -132,3 +134,55 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
+
+// Server-side action to create a blog post
+export async function createBlogPostAction(formData: FormData) {
+  const supabase = await createClient();
+  
+  // Get user session
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    return { error: 'You must be logged in to create a post' };
+  }
+  
+  // Extract form data
+  const title = formData.get('title') as string;
+  const content = formData.get('content') as string;
+  const excerpt = formData.get('excerpt') as string;
+  const status = formData.get('status') as 'draft' | 'published';
+  
+  // Validate
+  if (!title || !content) {
+    return { error: 'Title and content are required' };
+  }
+  
+  // Create post data
+  const postData = {
+    title: title.trim(),
+    content: content.trim(),
+    excerpt: excerpt?.trim() || content.trim().substring(0, 150) + '...',
+    status,
+    author_id: user.id,
+    slug: slugify(title),
+    published_at: status === 'published' ? new Date().toISOString() : null
+  };
+  
+  // Insert post
+  const { data, error } = await supabase
+    .from('blog_posts')
+    .insert(postData)
+    .select('id')
+    .single();
+  
+  if (error) {
+    console.error('Database error:', error);
+    return { error: `Failed to create post: ${error.message}` };
+  }
+  
+  // Revalidate paths
+  revalidatePath('/blog');
+  
+  // Return success
+  return { success: true, postId: data.id };
+}

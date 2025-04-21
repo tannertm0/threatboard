@@ -7,7 +7,7 @@ export default function Header() {
         <Image
           src="/logo.png"
           alt="ThreatBoard Logo"
-          width={500}
+          width={400}
           height={100}
           priority
           className="dark:invert-0"
