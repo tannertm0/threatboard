@@ -8,9 +8,6 @@ import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { createSupabaseClient, handleAuthError } from "@/utils/supabase/client";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeSanitize from "rehype-sanitize";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 
 type BlogPost = {
@@ -26,11 +23,7 @@ type BlogPost = {
   slug: string;
 };
 
-type paramsType = Promise<{ id: string }>;
-
-export default async function BlogPostPage({ params }: { params: paramsType }) {
-  const { id } = await params;
-  
+export function BlogPostClient({ postId }: { postId: string }) {
   const router = useRouter();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,12 +31,12 @@ export default async function BlogPostPage({ params }: { params: paramsType }) {
   const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    if (id) {
-      fetchPost(id);
+    if (postId) {
+      fetchPost(postId);
     }
-  }, [id]);
+  }, [postId]);
 
-  const fetchPost = async (postId: string) => {
+  const fetchPost = async (id: string) => {
     try {
       setLoading(true);
       const supabase = await createSupabaseClient();
@@ -55,7 +48,7 @@ export default async function BlogPostPage({ params }: { params: paramsType }) {
       const { data: post, error } = await supabase
         .from("blog_posts")
         .select("*")
-        .eq("id", postId)
+        .eq("id", id)
         .single();
 
       if (error) {
@@ -132,7 +125,7 @@ export default async function BlogPostPage({ params }: { params: paramsType }) {
         const { error } = await supabase
           .from("blog_likes")
           .delete()
-          .eq("post_id", id)
+          .eq("post_id", postId)
           .eq("user_id", user.user.id);
 
         if (error) throw error;
@@ -144,7 +137,7 @@ export default async function BlogPostPage({ params }: { params: paramsType }) {
         const { error } = await supabase
           .from("blog_likes")
           .insert({
-            post_id: id,
+            post_id: postId,
             user_id: user.user.id
           });
 
@@ -223,4 +216,4 @@ export default async function BlogPostPage({ params }: { params: paramsType }) {
       </Card>
     </div>
   );
-}
+} 

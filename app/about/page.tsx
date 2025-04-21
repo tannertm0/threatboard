@@ -97,8 +97,17 @@ const PHOTOS: Photo[] = [
 ];
 
 export default function AboutPage() {
-  // Animation states
-  const [isVisible, setIsVisible] = useState(false);
+  // State for animations
+  const [animationStates, setAnimationStates] = useState({
+    header: false,
+    aboutMe: false,
+    photoGallery: false,
+    projects: false,
+    experience: false,
+    accordionSection: false,
+    skills: false,
+    education: false
+  });
   
   // Accordion states
   const [openSections, setOpenSections] = useState({
@@ -107,9 +116,31 @@ export default function AboutPage() {
     sideProjects: false
   });
   
-  // Fade-in animation on page load
+  // Fade-in animation with sequence
   useEffect(() => {
-    setIsVisible(true);
+    const animationSequence = async () => {
+      // Helper function to set a specific section to visible and wait
+      const animateSection = (section: string, delay: number): Promise<void> => {
+        return new Promise<void>(resolve => {
+          setTimeout(() => {
+            setAnimationStates(prev => ({ ...prev, [section]: true }));
+            resolve();
+          }, delay);
+        });
+      };
+      
+      // Start the animation sequence
+      await animateSection('header', 300);
+      await animateSection('aboutMe', 600);
+      await animateSection('photoGallery', 600);
+      await animateSection('projects', 600);
+      await animateSection('experience', 600);
+      await animateSection('accordionSection', 600);
+      await animateSection('skills', 600);
+      await animateSection('education', 600);
+    };
+    
+    animationSequence();
   }, []);
   
   const toggleSection = (section: 'internships' | 'coursework' | 'sideProjects') => {
@@ -121,12 +152,10 @@ export default function AboutPage() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <div 
-        className={`max-w-5xl mx-auto transition-opacity duration-1000 ease-in-out ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <header className="mb-12 flex flex-col md:flex-row gap-8 items-center">
+      <div className="max-w-5xl mx-auto">
+        <header className={`mb-12 flex flex-col md:flex-row gap-8 items-center transition-opacity duration-1000 ease-in-out ${
+          animationStates.header ? 'opacity-100' : 'opacity-0'
+        }`}>
           <div className="relative">
             <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
               <Image 
@@ -171,7 +200,9 @@ export default function AboutPage() {
           </div>
         </header>
         
-        <section className="mb-10 transition-all duration-500 delay-100">
+        <section className={`mb-10 transition-all duration-1000 transform ${
+          animationStates.aboutMe ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle>About Me</CardTitle>
@@ -189,7 +220,9 @@ export default function AboutPage() {
         </section>
         
         {/* Photo Gallery Section */}
-        <section className="mb-10 transition-all duration-500 delay-200">
+        <section className={`mb-10 transition-all duration-1000 transform ${
+          animationStates.photoGallery ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -211,7 +244,9 @@ export default function AboutPage() {
         </section>
         
         {/* Projects Section */}
-        <section className="mb-10 transition-all duration-500 delay-300">
+        <section className={`mb-10 transition-all duration-1000 transform ${
+          animationStates.projects ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -231,7 +266,9 @@ export default function AboutPage() {
           </Card>
         </section>
         
-        <section className="mb-10 transition-all duration-500 delay-400">
+        <section className={`mb-10 transition-all duration-1000 transform ${
+          animationStates.experience ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -275,7 +312,9 @@ export default function AboutPage() {
           </Card>
         </section>
         
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-all duration-500 delay-500">
+        <section className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 transition-all duration-1000 transform ${
+          animationStates.accordionSection ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           {/* Internships */}
           <Card>
             <div 
@@ -382,7 +421,9 @@ export default function AboutPage() {
           </Card>
         </section>
         
-        <section className="mb-10 transition-all duration-500 delay-600">
+        <section className={`mb-10 transition-all duration-1000 transform ${
+          animationStates.skills ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle>Skills & Certifications</CardTitle>
@@ -413,7 +454,9 @@ export default function AboutPage() {
           </Card>
         </section>
         
-        <section className="transition-all duration-500 delay-700">
+        <section className={`transition-all duration-1000 transform ${
+          animationStates.education ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <Card>
             <CardHeader>
               <CardTitle>Education</CardTitle>
