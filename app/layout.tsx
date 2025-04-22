@@ -1,12 +1,14 @@
 import { EnvVarWarning } from "@/components/env-var-warning";
 import HeaderAuth from "@/components/header-auth";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ToolsDropdown } from "@/components/tools-dropdown";
+import ToolsDropdown from "@/components/tools-dropdown";
+import AboutDropdown from "@/components/about-dropdown";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import Image from "next/image";
+import { Home } from "lucide-react";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -46,11 +48,15 @@ export default function RootLayout({
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
-                    
-                    <ToolsDropdown />
-                    <Link href="/about" className="hover:text-foreground/80 transition-colors">
-                      About
+                    <Link 
+                      href="/" 
+                      className="flex items-center gap-1.5 text-foreground hover:text-foreground/80 transition-colors"
+                    >
+                      <Home size={18} />
+                      <span>Home</span>
                     </Link>
+                    <ToolsDropdown />
+                    <AboutDropdown />
                   </div>
                   {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
                 </div>

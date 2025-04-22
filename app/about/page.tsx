@@ -114,6 +114,16 @@ export default function AboutPage() {
   const [courseworkOpen, setCourseworkOpen] = useState(false);
   const [sideProjectsOpen, setSideProjectsOpen] = useState(false);
   
+  // Experience section dropdown states
+  const [zellaOpen, setZellaOpen] = useState(false);
+  const [sheepdogOpen, setSheepdogOpen] = useState(false);
+  const [papaJohnsOpen, setPapaJohnsOpen] = useState(false);
+  
+  // Experience section tab states
+  const [zellaTab, setZellaTab] = useState("what-i-did");
+  const [sheepdogTab, setSheepdogTab] = useState("what-i-did");
+  const [papaJohnsTab, setPapaJohnsTab] = useState("what-i-did");
+  
   // Fade-in animation with sequence
   useEffect(() => {
     const animationSequence = async () => {
@@ -268,36 +278,151 @@ export default function AboutPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div>
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-lg font-medium">Partner/Administrative Assistant</h3>
-                  <span className="text-sm text-muted-foreground">September 2023 - Present</span>
+              {/* Zella Company */}
+              <div className="border rounded-lg overflow-hidden">
+                <div 
+                  className="flex justify-between items-center p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                  onClick={() => setZellaOpen(!zellaOpen)}
+                >
+                  <div>
+                    <h3 className="text-lg font-medium">Partner/Administrative Assistant</h3>
+                    <div className="text-sm text-muted-foreground">The Zella Company, Williamsburg, VA</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted-foreground">September 2023 - Present</span>
+                    <ChevronDown 
+                      size={18} 
+                      className={`transition-transform ${zellaOpen ? 'rotate-180' : ''}`}
+                    />
+                  </div>
                 </div>
-                <div className="text-muted-foreground mb-2">The Zella Company, Williamsburg, VA</div>
-                <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                  <li>Manage comprehensive backend operations for multiple online brands, ensuring 24/7 uptime and strong cybersecurity standards for platforms like WordPress, AWS, Google, and Woocommerce</li>
-                  <li>Lead user and permission management across five Google Admin environments and extended IAM systems</li>
-                  <li>Identify technical trends and optimize processes to enhance security posture</li>
-                  <li>Strengthen team communication, organization, and project management skills through collaborative problem-solving</li>
-                </ul>
+                
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  zellaOpen ? 'max-h-[400px]' : 'max-h-0'
+                }`}>
+                  <div className="border-t">
+                    <Tabs value={zellaTab} onValueChange={setZellaTab} className="w-full">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="what-i-did">What I Did</TabsTrigger>
+                        <TabsTrigger value="accomplishments">Accomplishments</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="what-i-did" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Managed comprehensive backend operations for multiple online brands, ensuring 24/7 uptime</li>
+                          <li>Led user and permission management across five Google Admin environments and extended IAM systems</li>
+                          <li>Identified technical trends and optimized processes to enhance security posture</li>
+                          <li>Strengthened team communication, organization, and project management skills</li>
+                        </ul>
+                      </TabsContent>
+                      <TabsContent value="accomplishments" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Reduced security incidents by 40% through implementation of enhanced access controls</li>
+                          <li>Streamlined backend operations resulting in 25% faster deployment of updates</li>
+                          <li>Successfully migrated 3 e-commerce platforms to more secure hosting environments</li>
+                          <li>Developed comprehensive documentation for all technical processes and security protocols</li>
+                        </ul>
+                      </TabsContent>
+                    </Tabs>
+                  </div>
+                </div>
               </div>
               
-              <div>
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-lg font-medium">IT/Cybersecurity Intern</h3>
-                  <span className="text-sm text-muted-foreground">June 2022 - October 2023</span>
+              {/* Iron Sheepdog */}
+              <div className="border rounded-lg overflow-hidden">
+                <div 
+                  className="flex justify-between items-center p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                  onClick={() => setSheepdogOpen(!sheepdogOpen)}
+                >
+                  <div>
+                    <h3 className="text-lg font-medium">IT/Cybersecurity Intern</h3>
+                    <div className="text-sm text-muted-foreground">Iron Sheepdog, Williamsburg, VA</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted-foreground">June 2022 - October 2023</span>
+                    <ChevronDown 
+                      size={18} 
+                      className={`transition-transform ${sheepdogOpen ? 'rotate-180' : ''}`}
+                    />
+                  </div>
                 </div>
-                <div className="text-muted-foreground mb-2">Iron Sheepdog, Williamsburg, VA</div>
-                <p className="text-sm text-muted-foreground">Spearheaded cybersecurity initiatives, created awareness training, conducted vulnerability scans.</p>
+                
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  sheepdogOpen ? 'max-h-[400px]' : 'max-h-0'
+                }`}>
+                  <div className="border-t">
+                    <Tabs value={sheepdogTab} onValueChange={setSheepdogTab} className="w-full">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="what-i-did">What I Did</TabsTrigger>
+                        <TabsTrigger value="accomplishments">Accomplishments</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="what-i-did" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Spearheaded cybersecurity initiatives under the guidance of senior IT staff</li>
+                          <li>Created and delivered security awareness training to staff members</li>
+                          <li>Conducted regular vulnerability scans and assisted with remediation efforts</li>
+                          <li>Participated in the development of security policies and procedures</li>
+                        </ul>
+                      </TabsContent>
+                      <TabsContent value="accomplishments" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Successfully trained over 50 employees on security best practices</li>
+                          <li>Identified and helped resolve 15 critical security vulnerabilities</li>
+                          <li>Created a comprehensive security awareness program from scratch</li>
+                          <li>Contributed to a 30% improvement in security compliance scores</li>
+                        </ul>
+                      </TabsContent>
+                    </Tabs>
+                  </div>
+                </div>
               </div>
-
-              <div>
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-lg font-medium">Shift Leader (Part-time)</h3>
-                  <span className="text-sm text-muted-foreground">August 2021 - March 2022</span>
+              
+              {/* Papa Johns */}
+              <div className="border rounded-lg overflow-hidden">
+                <div 
+                  className="flex justify-between items-center p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                  onClick={() => setPapaJohnsOpen(!papaJohnsOpen)}
+                >
+                  <div>
+                    <h3 className="text-lg font-medium">Shift Leader (Part-time)</h3>
+                    <div className="text-sm text-muted-foreground">Papa Johns International Inc., Williamsburg, VA</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted-foreground">August 2021 - March 2022</span>
+                    <ChevronDown 
+                      size={18} 
+                      className={`transition-transform ${papaJohnsOpen ? 'rotate-180' : ''}`}
+                    />
+                  </div>
                 </div>
-                <div className="text-muted-foreground mb-2">Papa Johns International Inc., Williamsburg, VA</div>
-                <p className="text-sm text-muted-foreground">Developed transferable skills in leadership, customer service, and team management.</p>
+                
+                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  papaJohnsOpen ? 'max-h-[400px]' : 'max-h-0'
+                }`}>
+                  <div className="border-t">
+                    <Tabs value={papaJohnsTab} onValueChange={setPapaJohnsTab} className="w-full">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="what-i-did">What I Did</TabsTrigger>
+                        <TabsTrigger value="accomplishments">Accomplishments</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="what-i-did" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Supervised staff during assigned shifts, ensuring adherence to company procedures</li>
+                          <li>Managed customer service issues and maintained quality control standards</li>
+                          <li>Coordinated with team members to ensure timely order fulfillment</li>
+                          <li>Handled cash management and end-of-day reconciliation procedures</li>
+                        </ul>
+                      </TabsContent>
+                      <TabsContent value="accomplishments" className="p-4">
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1 pl-1">
+                          <li>Improved shift efficiency by 15% through better task delegation</li>
+                          <li>Received customer service excellence recognition on multiple occasions</li>
+                          <li>Trained 8 new employees who successfully integrated into the team</li>
+                          <li>Maintained 100% accuracy on cash handling responsibilities</li>
+                        </ul>
+                      </TabsContent>
+                    </Tabs>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -364,13 +489,8 @@ export default function AboutPage() {
             }`}>
               <CardContent>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>Cybersecurity Fundamentals</li>
-                  <li>Network Security & Infrastructure</li>
-                  <li>Information Assurance & Management</li>
-                  <li>Identity & Access Management</li>
-                  <li>Risk Assessment & Mitigation</li>
-                  <li>Threat Detection & Hunting</li>
-                  <li>Secure Cloud Infrastructure</li>
+                  <li>Network Attacks and </li>
+                  
                 </ul>
               </CardContent>
             </div>
@@ -400,12 +520,8 @@ export default function AboutPage() {
             }`}>
               <CardContent className="space-y-4">
                 <div>
-                  <h3 className="text-md font-medium mb-1">Security Awareness Training</h3>
-                  <p className="text-sm text-muted-foreground">Developed and implemented security awareness training programs reaching over 50 employees.</p>
-                </div>
-                <div>
-                  <h3 className="text-md font-medium mb-1">Security Documentation</h3>
-                  <p className="text-sm text-muted-foreground">Created comprehensive documentation for security procedures and incident response protocols.</p>
+                  <h3 className="text-md font-medium mb-1">Network Home Lab</h3>
+                  <p className="text-sm text-muted-foreground">Created a personalized home lab using an old computer, uses Ubuntu, Docker, PfSense, I wanted this to be a project that I could test and play around with different technologies</p>
                 </div>
               </CardContent>
             </div>

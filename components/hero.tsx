@@ -21,7 +21,7 @@ export default function Header() {
             href="/about" 
             className="text-foreground/80 hover:text-foreground font-medium px-3 py-2 rounded-md transition-colors"
           >
-            About
+           
           </Link>
         </nav>
       </div>

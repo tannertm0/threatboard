@@ -1,103 +1,90 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Wrench } from "lucide-react";
+import { useEffect, useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { ChevronDown, Key, Search, Shield, Bug } from "lucide-react";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
-const tools = [
-  {
-    name: "Vulnerability Board",
-    description: "View the latest security vulnerabilities",
-    href: "/board",
-    implemented: true,
-  },
-  {
-    name: "Virus Scanner",
-    description: "Scan for potential security threats",
-    href: "/tools/virus-scanner",
-    implemented: true,
-  },
-  {
-    name: "Password Generator/Checker",
-    description: "Generate secure passwords",
-    href: "/tools/password-generator",
-    implemented: true,
-  },
-  {
-    name: "Hash Lookup",
-    description: "Look up file information by hash",
-    href: "/tools/hash-lookup",
-    implemented: true,
-  },
-  {
-    name: "Network Monitor",
-    description: "Monitor network activity",
-    href: "/tools/network-monitor",
-    implemented: false,
-  },
-  {
-    name: "Log Analyzer",
-    description: "Analyze system logs",
-    href: "/tools/log-analyzer",
-    implemented: false,
-  },
-  {
-    name: "Port Scanner",
-    description: "Scan open ports",
-    href: "/tools/port-scanner",
-    implemented: false,
-  },
-  {
-    name: "Security Reports",
-    description: "Generate security reports",
-    href: "/tools/security-reports",
-    implemented: false,
-  },
-  {
-    name: "AI Image Detector",
-    description: "Analyze images using AI classification",
-    href: "/ai-detector",
-    implemented: true,
-  },
-];
+export default function ToolsDropdown() {
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
-export function ToolsDropdown() {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything on the server-side to prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
+  const isActive = (path: string) => pathname?.startsWith(path);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <Wrench className="h-4 w-4" />
+        <Button variant="link" className="text-sm font-semibold p-0 hover:text-foreground/80 transition-colors flex items-center">
           Tools
+          <ChevronDown className="ml-1 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[600px] p-4">
-        <div className="grid grid-cols-2 gap-2">
-          {tools.map((tool) => (
-            <Link
-              key={tool.name}
-              href={tool.implemented ? tool.href : "#"}
-              onClick={(e) => !tool.implemented && e.preventDefault()}
-              className={`flex flex-col gap-1 rounded-lg border p-3 hover:bg-accent hover:text-accent-foreground transition-colors relative ${!tool.implemented ? 'opacity-70 cursor-not-allowed' : ''}`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-medium">{tool.name}</span>
-                {!tool.implemented && (
-                  <span className="text-xs px-1.5 py-0.5 bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 rounded-md font-medium">
-                    Coming Soon
-                  </span>
-                )}
-              </div>
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                {tool.description}
-              </p>
-            </Link>
-          ))}
-        </div>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuItem>
+          <Link 
+            href="/board" 
+            prefetch={false}
+            className={`flex w-full items-center gap-2 ${isActive('/board') ? 'text-foreground' : 'text-muted-foreground'}`}
+          >
+            <Shield className="h-4 w-4" />
+            <span>Vulnerability Board</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem>
+          <Link 
+            href="/tools/virus-scanner" 
+            prefetch={false}
+            className={`flex w-full items-center gap-2 ${isActive('/tools/virus') ? 'text-foreground' : 'text-muted-foreground'}`}
+          >
+            <Shield className="h-4 w-4" />
+            <span>Virus Scanner</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem>
+          <Link 
+            href="/tools/password-generator" 
+            prefetch={false}
+            className={`flex w-full items-center gap-2 ${isActive('/tools/password') ? 'text-foreground' : 'text-muted-foreground'}`}
+          >
+            <Key className="h-4 w-4" />
+            <span>Password Generator</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem>
+          <Link 
+            href="/tools/hash-lookup"
+            prefetch={false} 
+            className={`flex w-full items-center gap-2 ${isActive('/tools/hash') ? 'text-foreground' : 'text-muted-foreground'}`}
+          >
+            <Search className="h-4 w-4" />
+            <span>Hash Lookup</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem>
+          <Link 
+            href="/malware" 
+            prefetch={false}
+            className={`flex w-full items-center gap-2 ${isActive('/malware') ? 'text-foreground' : 'text-muted-foreground'}`}
+          >
+            <Bug className="h-4 w-4" />
+            <span>Malware Samples</span>
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
