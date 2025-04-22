@@ -109,12 +109,10 @@ export default function AboutPage() {
     education: false
   });
   
-  // Accordion states
-  const [openSections, setOpenSections] = useState({
-    internships: false,
-    coursework: false,
-    sideProjects: false
-  });
+  // Individual accordion states for each section
+  const [internshipsOpen, setInternshipsOpen] = useState(false);
+  const [courseworkOpen, setCourseworkOpen] = useState(false);
+  const [sideProjectsOpen, setSideProjectsOpen] = useState(false);
   
   // Fade-in animation with sequence
   useEffect(() => {
@@ -142,13 +140,6 @@ export default function AboutPage() {
     
     animationSequence();
   }, []);
-  
-  const toggleSection = (section: 'internships' | 'coursework' | 'sideProjects') => {
-    setOpenSections({
-      ...openSections,
-      [section]: !openSections[section]
-    });
-  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -319,7 +310,7 @@ export default function AboutPage() {
           <Card>
             <div 
               className="cursor-pointer"
-              onClick={() => toggleSection('internships')}
+              onClick={() => setInternshipsOpen(!internshipsOpen)}
             >
               <CardHeader>
                 <CardTitle className="flex justify-between items-center">
@@ -329,13 +320,13 @@ export default function AboutPage() {
                   </div>
                   <ChevronDown 
                     size={20} 
-                    className={`transition-transform ${openSections.internships ? 'rotate-180' : ''}`}
+                    className={`transition-transform ${internshipsOpen ? 'rotate-180' : ''}`}
                   />
                 </CardTitle>
               </CardHeader>
             </div>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-              openSections.internships ? 'max-h-96' : 'max-h-0'
+              internshipsOpen ? 'max-h-96' : 'max-h-0'
             }`}>
               <CardContent className="space-y-4">
                 <div>
@@ -353,7 +344,7 @@ export default function AboutPage() {
           <Card>
             <div 
               className="cursor-pointer"
-              onClick={() => toggleSection('coursework')}
+              onClick={() => setCourseworkOpen(!courseworkOpen)}
             >
               <CardHeader>
                 <CardTitle className="flex justify-between items-center">
@@ -363,13 +354,13 @@ export default function AboutPage() {
                   </div>
                   <ChevronDown 
                     size={20} 
-                    className={`transition-transform ${openSections.coursework ? 'rotate-180' : ''}`}
+                    className={`transition-transform ${courseworkOpen ? 'rotate-180' : ''}`}
                   />
                 </CardTitle>
               </CardHeader>
             </div>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-              openSections.coursework ? 'max-h-96' : 'max-h-0'
+              courseworkOpen ? 'max-h-96' : 'max-h-0'
             }`}>
               <CardContent>
                 <ul className="space-y-2 text-muted-foreground">
@@ -389,7 +380,7 @@ export default function AboutPage() {
           <Card>
             <div 
               className="cursor-pointer"
-              onClick={() => toggleSection('sideProjects')}
+              onClick={() => setSideProjectsOpen(!sideProjectsOpen)}
             >
               <CardHeader>
                 <CardTitle className="flex justify-between items-center">
@@ -399,13 +390,13 @@ export default function AboutPage() {
                   </div>
                   <ChevronDown 
                     size={20} 
-                    className={`transition-transform ${openSections.sideProjects ? 'rotate-180' : ''}`}
+                    className={`transition-transform ${sideProjectsOpen ? 'rotate-180' : ''}`}
                   />
                 </CardTitle>
               </CardHeader>
             </div>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-              openSections.sideProjects ? 'max-h-96' : 'max-h-0'
+              sideProjectsOpen ? 'max-h-96' : 'max-h-0'
             }`}>
               <CardContent className="space-y-4">
                 <div>
