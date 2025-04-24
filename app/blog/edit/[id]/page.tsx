@@ -23,8 +23,10 @@ type BlogPost = {
   slug: string;
 };
 
-export default function EditBlogPost({ params }: { params: { id: string } }) {
-  const postId = params.id;
+type ParamsType = Promise<{ id: string }> | { id: string };
+
+export default async function EditBlogPost({ params }: { params: ParamsType }) {
+  const { id: postId } = 'then' in params ? await params : params;
   
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -76,54 +78,43 @@ export default function EditBlogPost({ params }: { params: { id: string } }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!title.trim()) {
-      toast('Title is required');
+    if (!title.trim() || !content.trim()) {
+      toast.error('Title and content are required');
       return;
     }
     
-    if (!content.trim()) {
-      toast('Content is required');
-      return;
-    }
-    
-    if (!supabase) return;
+    setIsSubmitting(true);
     
     try {
-      setIsSubmitting(true);
-      
+      // Generate a slug from the title if needed
       const slug = slugify(title);
-      
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast('You must be logged in to edit a post');
-        return;
-      }
-      
-      const postData = {
-        title,
-        content,
-        excerpt: excerpt || content.substring(0, 150) + '...',
-        slug,
-        status,
-        published_at: status === 'published' ? new Date().toISOString() : null,
-      };
       
       const { error } = await supabase
         .from('blog_posts')
-        .update(postData)
+        .update({
+          title,
+          content,
+          excerpt,
+          status,
+          slug,
+          updated_at: new Date().toISOString()
+        })
         .eq('id', postId);
-      
+        
       if (error) throw error;
       
-      toast('Blog post updated successfully');
+      toast.success('Blog post updated successfully!');
       router.push(`/blog/${postId}`);
     } catch (error) {
       console.error('Error updating post:', error);
-      toast('Failed to update blog post');
+      handleAuthError(error, 'Failed to update blog post');
     } finally {
       setIsSubmitting(false);
     }
+  };
+  
+  const goBack = () => {
+    router.push(`/blog/${postId}`);
   };
 
   if (loading) {
@@ -142,7 +133,7 @@ export default function EditBlogPost({ params }: { params: { id: string } }) {
         <Button 
           variant="ghost" 
           className="flex items-center gap-2"
-          onClick={() => router.push(`/blog/${postId}`)}
+          onClick={goBack}
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Post
