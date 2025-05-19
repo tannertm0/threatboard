@@ -12,7 +12,7 @@ import {
   Code, 
   Upload,
   ChevronDown,
-  Image as ImageIcon
+  // Image as ImageIcon
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -29,7 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { ProjectCarousel, Project } from '@/components/project-carousel';
-import { PhotoCarousel, Photo } from '@/components/photo-carousel';
+// import { PhotoCarousel, Photo } from '@/components/photo-carousel';
 
 // Sample project data
 const PROJECTS: Project[] = [
@@ -44,10 +44,10 @@ const PROJECTS: Project[] = [
   },
   {
     id: '2',
-    title: 'Atlantic Surf Park - Wave Garden',
-    description: 'Atlantic Park is a year-round district that is home to a state-of-the-art live entertainment and events venue, creative office space, urban-style residences',
+    title: 'Home Lab',
+    description: '',
     imageUrl: '/placeholder2.jpg',
-    tags: ['Virginia Beach', 'Wave Pool', 'WM Jordan'],
+    tags: ['Ubuntu Live Server', 'Docker', ''],
     githubUrl: 'https://github.com/yourusername/homelab'
   },
   {
@@ -69,39 +69,39 @@ const PROJECTS: Project[] = [
 ];
 
 // Sample photo data
-const PHOTOS: Photo[] = [
-  {
-    id: '1',
-    url: '/placeholder1.jpg',
-    alt: 'Security conference presentation',
-    caption: 'Speaking at CyberSec 2023 Conference'
-  },
-  {
-    id: '2',
-    url: '/placeholder2.jpg',
-    alt: 'Team collaboration',
-    caption: 'Working with the security team on threat detection'
-  },
-  {
-    id: '3',
-    url: '/placeholder3.jpg',
-    alt: 'Award ceremony',
-    caption: 'Receiving the Cybersecurity Excellence Award'
-  },
-  {
-    id: '4',
-    url: '/placeholder4.jpg',
-    alt: 'Workshop session',
-    caption: 'Leading a workshop on penetration testing'
-  }
-];
+// const PHOTOS: Photo[] = [
+//   {
+//     id: '1',
+//     title: 'Project 1',
+//     description: 'Description of project 1',
+//     url: '/placeholder1.jpg',
+//   },
+//   {
+//     id: '2',
+//     title: 'Project 2',
+//     description: 'Description of project 2',
+//     url: '/placeholder2.jpg',
+//   },
+//   {
+//     id: '3',
+//     title: 'Project 3',
+//     description: 'Description of project 3',
+//     url: '/placeholder3.jpg',
+//   },
+//   {
+//     id: '4',
+//     title: 'Project 4',
+//     description: 'Description of project 4',
+//     url: '/placeholder4.jpg',
+//   },
+// ];
 
 export default function AboutPage() {
   // State for animations
   const [animationStates, setAnimationStates] = useState({
     header: false,
     aboutMe: false,
-    photoGallery: false,
+    // photoGallery: false,
     projects: false,
     experience: false,
     accordionSection: false,
@@ -128,19 +128,15 @@ export default function AboutPage() {
   useEffect(() => {
     const animationSequence = async () => {
       // Helper function to set a specific section to visible and wait
-      const animateSection = (section: string, delay: number): Promise<void> => {
-        return new Promise<void>(resolve => {
-          setTimeout(() => {
-            setAnimationStates(prev => ({ ...prev, [section]: true }));
-            resolve();
-          }, delay);
-        });
+      const animateSection = async (section: string, delay: number): Promise<void> => {
+        await new Promise(resolve => setTimeout(resolve, delay));
+        setAnimationStates(prev => ({ ...prev, [section]: true }));
       };
       
       // Start the animation sequence
       await animateSection('header', 300);
       await animateSection('aboutMe', 600);
-      await animateSection('photoGallery', 600);
+      // await animateSection('photoGallery', 600);
       await animateSection('projects', 600);
       await animateSection('experience', 600);
       await animateSection('accordionSection', 600);
@@ -221,28 +217,20 @@ export default function AboutPage() {
         </section>
         
         {/* Photo Gallery Section */}
-        <section className={`mb-10 transition-all duration-1000 transform ${
-          animationStates.photoGallery ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ImageIcon size={20} />
-                Photo Gallery
-              </CardTitle>
-              <CardDescription>
-                Highlights from conferences, workshops, and professional events
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-0 pb-12">
-              <PhotoCarousel 
-                photos={PHOTOS}
-                aspectRatio="video"
-                className="h-full py-2"
-              />
-            </CardContent>
-          </Card>
-        </section>
+        {/* <div
+          className={`transition-all duration-700 ease-in-out ${
+            animationStates.photoGallery ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <ImageIcon size={20} />
+            <h2 className="text-2xl font-bold">Photo Gallery</h2>
+          </div>
+          <PhotoCarousel
+            photos={PHOTOS}
+            lightbox={true}
+          />
+        </div> */}
         
         {/* Projects Section */}
         <section className={`mb-10 transition-all duration-1000 transform ${
